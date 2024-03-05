@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CleanArchitectureSample"
 include(":app")
+include(":domain")

@@ -19,11 +19,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
     compileOptions {
@@ -43,4 +48,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(path = ":domain"))
 }
+
+apply(from = "$rootDir/gradle/jacoco.gradle")
