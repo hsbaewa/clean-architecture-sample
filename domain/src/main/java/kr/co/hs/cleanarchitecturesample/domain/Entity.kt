@@ -1,4 +1,3 @@
 package kr.co.hs.cleanarchitecturesample.domain
 
-class Entity {
-}
+data class Entity(val text: String)

@@ -6,6 +6,7 @@ import org.junit.Test
 class DomainTest {
     @Test
     fun assertTesT() {
-        assertEquals("a", "a")
+        val entity = Entity("aa")
+        assertEquals("aa", entity.text)
     }
 }
