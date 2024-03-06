@@ -50,6 +50,14 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(path = ":domain"))
+
+    // hilt
+    implementation(libs.hilt.core)
+    androidTestImplementation(libs.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
+
+    // runTest
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 apply(from = "$rootDir/gradle/jacoco.gradle")
