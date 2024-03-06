@@ -1,4 +1,4 @@
-package kr.co.hs.cleanarchitecturesample
+package kr.co.hs.cleanarchitecturesample.data.di
 
 import javax.inject.Qualifier
 
