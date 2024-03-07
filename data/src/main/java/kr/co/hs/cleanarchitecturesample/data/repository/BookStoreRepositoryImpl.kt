@@ -54,7 +54,11 @@ class BookStoreRepositoryImpl(
                     body()?.toDomain()
                         ?: throw NullPointerException("request success, but response body is null")
                 } else {
-                    throw Exception(errorBody()?.string() ?: "")
+                    if (this.code() == 404) {
+                        throw NullPointerException("not found")
+                    } else {
+                        throw Exception(errorBody()?.string() ?: "")
+                    }
                 }
             }.let { emit(it) }
         }

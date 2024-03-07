@@ -3,9 +3,9 @@ package kr.co.hs.cleanarchitecturesample.domain.usecase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 
@@ -16,15 +16,16 @@ class GetNewBooksUseCase(
     operator fun invoke(
         scope: CoroutineScope = GlobalScope,
         onResult: (UseCaseResult<List<BookSummaryEntity>, Nothing>) -> Unit
-    ) {
-        scope.launch {
-            onResult(
-                repository
-                    .runCatching {
-                        UseCaseResult.Success(getNewBooks().catch { throw it }.toList())
-                    }
-                    .getOrElse { UseCaseResult.Exception(it) }
-            )
-        }
+    ) = scope.async {
+        val result = repository
+            .runCatching {
+                UseCaseResult.Success(getNewBooks().catch { throw it }.toList())
+            }
+            .getOrElse { UseCaseResult.Exception(it) }
+        onResult.invoke(result)
+
+        return@async if (result is UseCaseResult.Success) {
+            result.data
+        } else emptyList()
     }
 }
