@@ -1,5 +1,8 @@
 package kr.co.hs.cleanarchitecturesample
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -7,42 +10,40 @@ import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import kr.co.hs.cleanarchitecturesample.data.datasource.BookStoreDataSource
-import kr.co.hs.cleanarchitecturesample.data.repository.BookStoreRepositoryImpl
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
-import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 import kr.co.hs.cleanarchitecturesample.domain.usecase.GetBookDetailsUseCase
 import kr.co.hs.cleanarchitecturesample.domain.usecase.GetNewBooksUseCase
 import kr.co.hs.cleanarchitecturesample.domain.usecase.SearchUseCase
 import kr.co.hs.cleanarchitecturesample.domain.usecase.UseCaseResult
-import okhttp3.OkHttpClient
 import org.junit.Assert.assertThrows
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import org.junit.runner.RunWith
 import java.net.URL
+import javax.inject.Inject
 import kotlin.time.Duration
 
+@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class DataTest {
+    @Inject
+    lateinit var getBookDetailsUseCase: GetBookDetailsUseCase
 
-    lateinit var bookStoreRepository: BookStoreRepository
+    @Inject
+    lateinit var getNewBooksUseCase: GetNewBooksUseCase
+
+    @Inject
+    lateinit var searchUseCase: SearchUseCase
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Before
-    fun init() {
-        bookStoreRepository = BookStoreRepositoryImpl(
-            Retrofit.Builder()
-                .client(OkHttpClient.Builder().build())
-                .baseUrl("https://api.itbook.store/1.0/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(BookStoreDataSource::class.java)
-        )
-    }
+    fun init() = hiltRule.inject()
 
     @Test
     fun Book_검색_테스트() = runTest(timeout = Duration.INFINITE) {
-        val searchUseCase = SearchUseCase(bookStoreRepository)
         coroutineScope {
             searchUseCase("mongodb", scope = this) {
                 when (it) {
@@ -118,7 +119,6 @@ class DataTest {
 
     @Test
     fun Book_New_Release_조회_테스트() = runTest {
-        val getNewBooksUseCase = GetNewBooksUseCase(bookStoreRepository)
         val result = getNewBooksUseCase(
             scope = this,
             onResult = {
@@ -132,10 +132,9 @@ class DataTest {
 
     @Test
     fun Book_상세_조회_테스트() = runTest {
-        val detailsUseCase = GetBookDetailsUseCase(bookStoreRepository)
         var result = coroutineScope {
             // 유효하지 않은 isbn
-            detailsUseCase(
+            getBookDetailsUseCase(
                 object : BookSummaryEntity {
                     override val key: String = "anything"
                     override val title: String = ""
@@ -161,15 +160,14 @@ class DataTest {
 
         // 실제 유효한 isbn
         result = coroutineScope {
-            val newRelease = GetNewBooksUseCase(bookStoreRepository)
-            val summary = newRelease(this) {
+            val summary = getNewBooksUseCase(this) {
                 if (it is UseCaseResult.Exception) {
                     throw it.t
                 }
             }.await().first()
 
 
-            detailsUseCase(summary, this) {
+            getBookDetailsUseCase(summary, this) {
                 if (it is UseCaseResult.Exception) {
                     throw it.t
                 }

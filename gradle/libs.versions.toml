@@ -1,7 +1,8 @@
 [versions]
 agp = "8.3.0"
-hiltCompiler = "2.35.1"
-hiltCore = "2.44"
+coil = "2.6.0"
+hiltCompiler = "2.48"
+hiltCore = "2.48"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -17,8 +18,10 @@ retrofit = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltCore" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltCore" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltCore" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hiltCore" }

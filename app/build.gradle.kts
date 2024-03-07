@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -14,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "kr.co.hs.cleanarchitecturesample.HiltTestRunner"
     }
 
     buildTypes {
@@ -38,6 +40,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -53,18 +58,25 @@ dependencies {
     implementation(project(path = ":data"))
 
     // hilt
-    implementation(libs.hilt.core)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
-    testImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler)
 
     // runTest
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
 
-
     // retrofit
     testImplementation(libs.retrofit)
     testImplementation(libs.converter.gson)
+
+    implementation(libs.coil)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
 
 apply(from = "$rootDir/gradle/jacoco.gradle")

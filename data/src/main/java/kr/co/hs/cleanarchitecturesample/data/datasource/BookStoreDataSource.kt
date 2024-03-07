@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 
-interface BookStoreDataSource {
+internal interface BookStoreDataSource {
     @Headers("Accept: application/json")
     @GET("search/{query}")
     suspend fun search(@Path("query") query: String): Response<BookSearchResultModel>

@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinJvm) apply false
     id("jacoco")
     alias(libs.plugins.androidLibrary) apply false
+    id("com.google.dagger.hilt.android") version "2.48" apply false
 }
