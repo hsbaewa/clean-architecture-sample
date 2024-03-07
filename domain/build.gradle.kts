@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("kotlin")
     alias(libs.plugins.jetbrainsKotlinJvm)
     id("jacoco")
 }
@@ -24,4 +25,6 @@ tasks.jacocoTestReport {
 
 dependencies {
     testImplementation(libs.junit)
+    // flow
+    implementation(libs.kotlinx.coroutines.core)
 }

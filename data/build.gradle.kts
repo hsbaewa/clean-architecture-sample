@@ -1,25 +1,22 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
-    namespace = "kr.co.hs.cleanarchitecturesample"
+    namespace = "kr.co.hs.cleanarchitecturesample.data"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "kr.co.hs.cleanarchitecturesample"
         minSdk = 31
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -32,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 }
 
@@ -49,22 +46,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":data"))
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     // hilt
     implementation(libs.hilt.core)
-    androidTestImplementation(libs.hilt.android.testing)
-    testImplementation(libs.hilt.android.testing)
+
+    implementation(project(path = ":domain"))
 
     // runTest
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
-
-
-    // retrofit
-    testImplementation(libs.retrofit)
-    testImplementation(libs.converter.gson)
 }
-
-apply(from = "$rootDir/gradle/jacoco.gradle")
