@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.co.hs.cleanarchitecturesample.data.datasource.BookStoreDataSource
 import kr.co.hs.cleanarchitecturesample.data.repository.BookStoreRepositoryImpl
+import kr.co.hs.cleanarchitecturesample.domain.di.BookStoreRepositoryQualifier
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+internal object NetworkModule {
 
     @Singleton
     @Provides

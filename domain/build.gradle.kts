@@ -3,6 +3,7 @@ plugins {
     id("kotlin")
     alias(libs.plugins.jetbrainsKotlinJvm)
     id("jacoco")
+    id("kotlin-kapt")
 }
 
 java {
@@ -27,4 +28,7 @@ dependencies {
     testImplementation(libs.junit)
     // flow
     implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.hilt.core)
+    kapt(libs.hilt.compiler)
 }

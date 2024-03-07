@@ -1,6 +1,6 @@
 package kr.co.hs.cleanarchitecturesample.data.model
 
-open class BookSummaryItemModel(
+internal open class BookSummaryItemModel(
     val title: String?,
     val subtitle: String?,
     val isbn13: String?,

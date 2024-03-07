@@ -6,11 +6,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kr.co.hs.cleanarchitecturesample.domain.di.BookStoreRepositoryQualifier
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
+import javax.inject.Inject
 
-class GetBookDetailsUseCase(
+class GetBookDetailsUseCase @Inject constructor(
+    @BookStoreRepositoryQualifier
     private val repository: BookStoreRepository
 ) {
     @OptIn(DelicateCoroutinesApi::class)
