@@ -6,22 +6,19 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kr.co.hs.cleanarchitecturesample.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
 @Suppress("NonAsciiCharacters", "TestFunctionName")
-@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class BookSearchActivityTest {
 
     @get:Rule
-    val hiltRule = HiltAndroidRule(this)
+    var hiltRule = HiltAndroidRule(this)
 
     lateinit var activityScenario: ActivityScenario<BookSearchActivity>
 
@@ -38,12 +35,11 @@ class BookSearchActivityTest {
 
     @Test
     fun Book_검색_화면_테스트() {
-        Espresso.onView(ViewMatchers.withText(R.string.do_input_search_keyword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
         activityScenario.onActivity {
             it.doSearch()
         }
 
+        Espresso.onView(ViewMatchers.withHint(R.string.do_input_search_keyword))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

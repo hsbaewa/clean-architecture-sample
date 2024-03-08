@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">CleanArchitectureSample</string>
 
+    <string name="common_confirm">확인</string>
+
     <string name="do_input_search_keyword">검색어를 입력 후 검색을 클릭하세요.</string>
 </resources>

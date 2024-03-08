@@ -20,7 +20,11 @@ object LiveDataExt {
             override fun onChanged(value: T) {
                 data = value
                 latch.countDown()
-                this@getOrAwaitValue.removeObserver(this)
+                try {
+                    this@getOrAwaitValue.removeObserver(this)
+                } catch (_: Exception) {
+
+                }
             }
         }
         this.observeForever(observer)

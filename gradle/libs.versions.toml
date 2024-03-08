@@ -1,7 +1,9 @@
 [versions]
+activityKtx = "1.8.2"
 agp = "8.3.0"
 coil = "2.6.0"
 coreTesting = "2.2.0"
+fragmentKtx = "1.6.2"
 hiltCompiler = "2.48"
 hiltCore = "2.48"
 kotlin = "1.9.0"
@@ -18,8 +20,10 @@ jetbrainsKotlinJvm = "1.9.0"
 retrofit = "2.9.0"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }

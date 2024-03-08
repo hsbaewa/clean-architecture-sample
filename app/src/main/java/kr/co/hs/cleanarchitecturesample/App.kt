@@ -1,5 +1,7 @@
 package kr.co.hs.cleanarchitecturesample
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class App: Application()
+@HiltAndroidApp
+class App : Application()

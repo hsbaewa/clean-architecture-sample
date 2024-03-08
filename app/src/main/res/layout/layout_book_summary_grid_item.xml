@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <kr.co.hs.cleanarchitecturesample.view.BookInfoLinearItemView
+        <kr.co.hs.cleanarchitecturesample.view.BookInfoGridItemView
             android:id="@+id/info_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

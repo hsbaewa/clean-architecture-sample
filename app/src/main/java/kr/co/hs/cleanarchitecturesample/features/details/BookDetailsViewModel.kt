@@ -14,7 +14,8 @@ import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
-class BookDetailsViewModel @Inject constructor(
+class BookDetailsViewModel
+@Inject constructor(
     private val getBookDetailsUseCase: GetBookDetailsUseCase
 ) : ViewModel() {
     private val _bookDetails = MutableLiveData<BookDetailEntity>()

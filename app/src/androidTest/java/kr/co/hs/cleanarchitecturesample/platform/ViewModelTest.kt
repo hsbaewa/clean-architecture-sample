@@ -8,8 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import kr.co.hs.cleanarchitecturesample.extension.LiveDataExt.getOrAwaitValue
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -41,5 +43,10 @@ class ViewModelTest {
         fun newError() = viewModelScope.launch {
             setLastError(Exception("e"))
         }
+    }
+
+    @After
+    fun finished() {
+        Dispatchers.resetMain()
     }
 }
