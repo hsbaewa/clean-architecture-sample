@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
+    // multi module
     implementation(project(path = ":domain"))
     implementation(project(path = ":data"))
 
@@ -78,6 +79,11 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.core.testing)
+
+    // paging3
+    implementation(libs.androidx.paging.runtime.ktx)
+    androidTestImplementation(libs.androidx.paging.common.ktx)
+
 }
 
 // Allow references to generated code

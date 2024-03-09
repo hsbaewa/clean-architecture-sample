@@ -1,6 +1,11 @@
 package kr.co.hs.cleanarchitecturesample.features.search
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.usecase.SearchUseCase
 import kr.co.hs.cleanarchitecturesample.platform.ViewModel
 import javax.inject.Inject
@@ -11,5 +16,16 @@ class BookSearchViewModel
     private val searchUseCase: SearchUseCase
 ) : ViewModel() {
 
-    fun search(query: String) {}
+    private var query = ""
+    val data: Flow<PagingData<BookSummaryEntity>> = Pager(
+        config = PagingConfig(
+            pageSize = 1,
+            initialLoadSize = 3
+        ),
+        pagingSourceFactory = { BookSearchResultPagingSource(searchUseCase, query) }
+    ).flow
+
+    fun search(query: String) {
+        this.query = query
+    }
 }
