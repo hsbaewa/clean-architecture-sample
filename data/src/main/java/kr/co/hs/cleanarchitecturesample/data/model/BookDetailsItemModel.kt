@@ -1,6 +1,6 @@
 package kr.co.hs.cleanarchitecturesample.data.model
 
-internal class BookDetailsItemModel(
+class BookDetailsItemModel(
     val error: String?,
     val authors: String?,
     val publisher: String?,

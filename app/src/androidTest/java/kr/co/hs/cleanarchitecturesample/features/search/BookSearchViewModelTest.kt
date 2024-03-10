@@ -3,6 +3,7 @@ package kr.co.hs.cleanarchitecturesample.features.search
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -10,6 +11,7 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kr.co.hs.cleanarchitecturesample.domain.usecase.GetNewBooksUseCase
 import kr.co.hs.cleanarchitecturesample.domain.usecase.SearchUseCase
 import kr.co.hs.cleanarchitecturesample.features.details.BookDetailsViewModelTest
 import org.junit.After
@@ -30,6 +32,9 @@ class BookSearchViewModelTest {
         InstantTaskExecutorRule() // 테스트시 스레드 동기화 coroutineScope 가 한 쓰레드에서 동작
 
     @Inject
+    lateinit var getNewBooksUseCase: GetNewBooksUseCase
+
+    @Inject
     lateinit var searchUseCase: SearchUseCase
 
     @Before
@@ -40,7 +45,10 @@ class BookSearchViewModelTest {
 
     @Test
     fun do_test() = runTest(timeout = Duration.INFINITE) {
-        val viewModel = BookSearchViewModel(searchUseCase)
+        val viewModel = BookSearchViewModel(getNewBooksUseCase, searchUseCase)
+        viewModel.search("query")
+
+        assertEquals("query", viewModel.getSearchingQuery())
     }
 
     @After

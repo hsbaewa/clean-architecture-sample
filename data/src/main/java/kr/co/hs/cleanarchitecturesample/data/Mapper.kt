@@ -7,7 +7,7 @@ import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import java.net.URL
 
 object Mapper {
-    internal fun BookSummaryItemModel.toDomain(): BookSummaryEntity? {
+    fun BookSummaryItemModel.toDomain(): BookSummaryEntity? {
         val key = isbn13 ?: return null
         val title = title ?: return null
         val subtitle = subtitle ?: ""
@@ -22,7 +22,7 @@ object Mapper {
         }
     }
 
-    internal fun BookDetailsItemModel.toDomain(): BookDetailEntity? {
+    fun BookDetailsItemModel.toDomain(): BookDetailEntity? {
         val key = isbn13 ?: return null
         val title = title ?: return null
         val subtitle = subtitle ?: ""

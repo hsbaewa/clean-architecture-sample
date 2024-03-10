@@ -25,14 +25,10 @@ class BookDetailsViewModel
         viewModelScope.launch {
             val summary = object : BookSummaryEntity {
                 override val key: String = isbn
-                override val title: String
-                    get() = TODO("Not yet implemented")
-                override val subtitle: String
-                    get() = TODO("Not yet implemented")
-                override val price: String
-                    get() = TODO("Not yet implemented")
-                override val imageUrl: URL
-                    get() = TODO("Not yet implemented")
+                override val title: String = ""
+                override val subtitle: String = ""
+                override val price: String = ""
+                override val imageUrl: URL? = null
 
             }
             @Suppress("DeferredResultUnused")
@@ -44,9 +40,7 @@ class BookDetailsViewModel
                     }
 
                     is UseCaseResult.Exception -> setLastError(it.t)
-                    is UseCaseResult.Success -> {
-                        _bookDetails.value = it.data
-                    }
+                    is UseCaseResult.Success -> _bookDetails.value = it.data
                 }
             }
         }

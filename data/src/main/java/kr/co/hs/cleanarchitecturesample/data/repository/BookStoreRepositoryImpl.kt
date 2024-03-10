@@ -8,7 +8,7 @@ import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 
-internal class BookStoreRepositoryImpl(
+class BookStoreRepositoryImpl(
     private val bookStoreDataSource: BookStoreDataSource
 ) : BookStoreRepository {
     override fun search(query: String): Flow<BookSummaryEntity> =

@@ -33,7 +33,15 @@ class BookSearchResultPagingSource(
                     }
                 }.await()
             }.let {
-                LoadResult.Page(it, prevKey, nextKey)
+                LoadResult.Page(
+                    it,
+                    prevKey,
+                    if (it.isEmpty()) {
+                        null
+                    } else {
+                        nextKey
+                    }
+                )
             }
         } catch (e: Exception) {
             LoadResult.Error(e)

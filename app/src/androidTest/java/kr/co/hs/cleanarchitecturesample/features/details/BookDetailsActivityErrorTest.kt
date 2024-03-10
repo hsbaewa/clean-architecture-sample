@@ -4,6 +4,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import dagger.Module
 import dagger.Provides
@@ -12,11 +13,12 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
-import kr.co.hs.cleanarchitecturesample.TestBookStoreRepository
 import kr.co.hs.cleanarchitecturesample.data.di.NetworkModule
 import kr.co.hs.cleanarchitecturesample.di.NavigatorQualifier
 import kr.co.hs.cleanarchitecturesample.domain.di.BookStoreRepositoryQualifier
+import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 import kr.co.hs.cleanarchitecturesample.domain.usecase.GetBookDetailsUseCase
@@ -30,10 +32,9 @@ import javax.inject.Singleton
 import kotlin.time.Duration
 
 
-@Suppress("NonAsciiCharacters", "TestFunctionName")
 @HiltAndroidTest
 @UninstallModules(NetworkModule::class)
-class BookDetailsActivityTest {
+class BookDetailsActivityErrorTest {
 
     /**
      * rules
@@ -56,7 +57,24 @@ class BookDetailsActivityTest {
         @Singleton
         @Provides
         @BookStoreRepositoryQualifier
-        fun providerBookStoreRepository(): BookStoreRepository = TestBookStoreRepository()
+        fun providerBookStoreRepository(): BookStoreRepository = object : BookStoreRepository {
+            override fun search(query: String): Flow<BookSummaryEntity> {
+                throw Exception()
+            }
+
+            override fun search(query: String, page: Int): Flow<BookSummaryEntity> {
+                throw Exception()
+            }
+
+            override fun getNewBooks(): Flow<BookSummaryEntity> {
+                throw Exception()
+            }
+
+            override fun getBookDetails(bookSummaryEntity: BookSummaryEntity): Flow<BookDetailEntity> {
+                throw Exception("error")
+            }
+
+        }
     }
 
     @Before
@@ -75,8 +93,9 @@ class BookDetailsActivityTest {
     }
 
     @Test
-    fun Book_상세_화면_테스트() = runTest(timeout = Duration.INFINITE) {
-        Espresso.onView(ViewMatchers.withText("제목0"))
+    fun do_test() = runTest(timeout = Duration.INFINITE) {
+        Espresso.onView(ViewMatchers.withText("error"))
+            .inRoot(RootMatchers.isDialog())
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
