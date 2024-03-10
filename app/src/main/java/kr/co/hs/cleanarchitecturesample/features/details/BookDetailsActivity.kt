@@ -29,6 +29,7 @@ class BookDetailsActivity : Activity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_book_details)
         binding.lifecycleOwner = this
+        setSupportActionBar(binding.toolbar)
 
         bookDetailsViewModel.bookDetails.observe(this) { setupUI(it) }
         bookDetailsViewModel.lastError.observe(this) { showThrowable(it) }
@@ -48,6 +49,7 @@ class BookDetailsActivity : Activity() {
         with(binding) {
             ivImage.load(bookDetailsEntity.imageUrl.toString()) { crossfade(true) }
             tvTitle.text = bookDetailsEntity.title
+            toolbar.title = bookDetailsEntity.title
         }
     }
 
