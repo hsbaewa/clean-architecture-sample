@@ -1,7 +1,7 @@
 package kr.co.hs.cleanarchitecturesample.test
 
-import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kr.co.hs.cleanarchitecturesample.platform.Activity
 
 @AndroidEntryPoint
-class TestActivity : AppCompatActivity()
+class TestActivity : Activity()

@@ -6,19 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <kr.co.hs.cleanarchitecturesample.view.BookInfoLinearItemView
-            android:id="@+id/info_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
-            app:contentPaddingBottom="10dp"
-            app:contentPaddingLeft="10dp"
-            app:contentPaddingRight="10dp"
-            app:contentPaddingTop="10dp"
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackThickness="5dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -50,10 +50,13 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.swiperefreshlayout)
 
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // multi module
     implementation(project(path = ":domain"))
     implementation(project(path = ":data"))
 
@@ -63,15 +66,24 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.android.compiler)
 
-    // runTest
-    testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.kotlinx.coroutines.test)
-
     // retrofit
     testImplementation(libs.retrofit)
     testImplementation(libs.converter.gson)
 
     implementation(libs.coil)
+
+    // for testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
+
+    // paging3
+    implementation(libs.androidx.paging.runtime.ktx)
+    androidTestImplementation(libs.androidx.paging.common.ktx)
+
 }
 
 // Allow references to generated code
