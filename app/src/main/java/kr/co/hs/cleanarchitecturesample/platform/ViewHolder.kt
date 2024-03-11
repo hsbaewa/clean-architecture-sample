@@ -8,4 +8,6 @@ abstract class ViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView)
     open fun onViewRecycled() {}
     open fun onViewAttachedToWindow() {}
     open fun onViewDetachedFromWindow() {}
+
+    protected fun getString(resId: Int) = itemView.context.getString(resId)
 }

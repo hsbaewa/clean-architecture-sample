@@ -24,6 +24,7 @@ class ListModeToggleButton : MaterialButton {
         setIconResource(R.drawable.baseline_view_list_24)
     }
 
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(value = [MODE_LINEAR, MODE_GRID])
     annotation class ListMode
 

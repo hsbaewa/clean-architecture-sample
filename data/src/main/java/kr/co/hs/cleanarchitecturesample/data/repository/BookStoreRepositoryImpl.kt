@@ -1,7 +1,9 @@
 package kr.co.hs.cleanarchitecturesample.data.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import kr.co.hs.cleanarchitecturesample.data.Mapper.toDomain
 import kr.co.hs.cleanarchitecturesample.data.datasource.BookStoreDataSource
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
@@ -13,7 +15,8 @@ class BookStoreRepositoryImpl(
 ) : BookStoreRepository {
     override fun search(query: String): Flow<BookSummaryEntity> =
         flow {
-            with(bookStoreDataSource.search(query)) {
+            val response = withContext(Dispatchers.IO) { bookStoreDataSource.search(query) }
+            with(response) {
                 if (isSuccessful) {
                     body()?.books?.mapNotNull { it.toDomain() }
                         ?: throw NullPointerException("request success, but response body is null")
@@ -25,7 +28,8 @@ class BookStoreRepositoryImpl(
 
     override fun search(query: String, page: Int): Flow<BookSummaryEntity> =
         flow {
-            with(bookStoreDataSource.search(query, page)) {
+            val response = withContext(Dispatchers.IO) { bookStoreDataSource.search(query, page) }
+            with(response) {
                 if (isSuccessful) {
                     body()?.books?.mapNotNull { it.toDomain() }
                         ?: throw NullPointerException("request success, but response body is null")
@@ -37,7 +41,8 @@ class BookStoreRepositoryImpl(
 
     override fun getNewBooks(): Flow<BookSummaryEntity> =
         flow {
-            with(bookStoreDataSource.new()) {
+            val response = withContext(Dispatchers.IO) { bookStoreDataSource.new() }
+            with(response) {
                 if (isSuccessful) {
                     body()?.books?.mapNotNull { it.toDomain() }
                         ?: throw NullPointerException("request success, but response body is null")
@@ -49,7 +54,9 @@ class BookStoreRepositoryImpl(
 
     override fun getBookDetails(bookSummaryEntity: BookSummaryEntity): Flow<BookDetailEntity> =
         flow {
-            with(bookStoreDataSource.details(bookSummaryEntity.key)) {
+            val response =
+                withContext(Dispatchers.IO) { bookStoreDataSource.details(bookSummaryEntity.key) }
+            with(response) {
                 if (isSuccessful) {
                     body()?.toDomain()
                         ?: throw NullPointerException("request success, but response body is null")

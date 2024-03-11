@@ -24,7 +24,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".features.details.BookDetailsActivity" />
+        <activity
+            android:name=".features.details.BookDetailsActivity"
+            android:label="" />
         <activity android:name=".features.search.BookSearchActivity" />
 
         <activity android:name=".test.TestActivity" />

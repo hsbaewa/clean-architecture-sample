@@ -40,7 +40,7 @@ class BookDetailsViewModelTest {
     lateinit var getBookDetailsUseCase: GetBookDetailsUseCase
 
     @Before
-    fun init()  {
+    fun init() {
         hiltRule.inject()
         Dispatchers.setMain(newSingleThreadContext(BookDetailsViewModelTest::class.java.simpleName))
     }
@@ -51,7 +51,8 @@ class BookDetailsViewModelTest {
         viewModel.request("9781484206485")
         val bookDetails = viewModel.bookDetails.getOrAwaitValue(time = 10)
         assertNotNull(bookDetails)
-        assertEquals("Practical MongoDB", bookDetails.title)
+        val title = bookDetails.find { it is BookDetailItem.Title } as? BookDetailItem.Title
+        assertEquals("Practical MongoDB", title?.value)
 
         viewModel.request("anything")
         val error = viewModel.lastError.getOrAwaitValue(time = 10)

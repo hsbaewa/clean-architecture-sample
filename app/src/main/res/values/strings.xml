@@ -4,4 +4,15 @@
     <string name="common_confirm">확인</string>
 
     <string name="do_input_search_keyword">검색어를 입력 후 검색을 클릭하세요.</string>
+
+    <string name="details_item_label_title">Title</string>
+    <string name="details_item_label_subtitle">SubTitle</string>
+    <string name="details_item_label_authors">Authors</string>
+    <string name="details_item_label_publisher">Publisher</string>
+    <string name="details_item_label_year">Year</string>
+    <string name="details_item_label_pages">Pages</string>
+    <string name="details_item_label_rating">Rating</string>
+    <string name="details_item_label_description">Description</string>
+    <string name="details_item_label_price">Price</string>
+    <string name="details_item_label_url">URL</string>
 </resources>
