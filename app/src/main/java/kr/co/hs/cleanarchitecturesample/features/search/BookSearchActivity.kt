@@ -5,9 +5,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.withStarted
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,10 +52,9 @@ class BookSearchActivity : Activity() {
 
         bookSearchViewModel.lastError.observe(this) { showThrowable(it) }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                bookSearchViewModel.data.collectLatest {
-                    recyclerViewSearchResult.scrollToPosition(0)
-                    listAdapter.submitData(it)
+            withStarted {
+                launch {
+                    bookSearchViewModel.data.collectLatest { listAdapter.submitData(it) }
                 }
             }
         }
@@ -72,6 +70,7 @@ class BookSearchActivity : Activity() {
                     bookSearchViewModel.search(v.text.toString())
                     listAdapter.refresh()
                     v.clearSoftKeyboard()
+                    recyclerViewSearchResult.scrollToPosition(0)
                     true
                 }
 
