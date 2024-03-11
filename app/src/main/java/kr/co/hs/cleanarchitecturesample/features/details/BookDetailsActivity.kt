@@ -82,7 +82,7 @@ class BookDetailsActivity : Activity() {
 
     private fun setupUI(items: Set<BookDetailItem>) {
         (items.find { it is BookDetailItem.ImageUrl } as? BookDetailItem.ImageUrl)
-            ?.let { bookImageView.loadURL(it.url) { crossfade(true) } }
+            ?.let { bookImageView.loadURL(it.url) }
         (items.find { it is BookDetailItem.Title } as? BookDetailItem.Title)
             ?.let { toolBar.title = it.value }
 

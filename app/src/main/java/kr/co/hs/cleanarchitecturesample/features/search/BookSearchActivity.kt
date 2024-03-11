@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -143,6 +144,7 @@ class BookSearchActivity : Activity() {
      * 리스트 갱신
      */
     private fun SwipeRefreshLayout.initRefreshLayout() {
+        setColorSchemeColors(ContextCompat.getColor(context, R.color.purple_500))
         setOnRefreshListener { listAdapter.refresh() }
     }
 

@@ -29,7 +29,7 @@ class BookInfoGridItemView : MaterialCardView {
     private val tvPrice: TextView by lazy { findViewById(R.id.tv_price) }
 
     fun set(entity: BookSummaryEntity) {
-        ivImage.loadURL(entity.imageUrl) { crossfade(true) }
+        ivImage.loadURL(entity.imageUrl, true)
         tvTitle.text = entity.title
         tvSubTitle.text = entity.subtitle
         tvPrice.text = entity.price
