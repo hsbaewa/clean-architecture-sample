@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.TextView
 import coil.dispose
-import coil.load
 import com.google.android.material.card.MaterialCardView
 import kr.co.hs.cleanarchitecturesample.R
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
+import kr.co.hs.cleanarchitecturesample.extension.CoilExt.loadURL
 
-class BookInfoGridItemView: MaterialCardView {
+class BookInfoGridItemView : MaterialCardView {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -29,7 +29,7 @@ class BookInfoGridItemView: MaterialCardView {
     private val tvPrice: TextView by lazy { findViewById(R.id.tv_price) }
 
     fun set(entity: BookSummaryEntity) {
-        ivImage.load(entity.imageUrl.toString()) { crossfade(true) }
+        ivImage.loadURL(entity.imageUrl) { crossfade(true) }
         tvTitle.text = entity.title
         tvSubTitle.text = entity.subtitle
         tvPrice.text = entity.price

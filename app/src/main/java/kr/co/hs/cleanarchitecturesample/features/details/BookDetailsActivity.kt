@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.dispose
-import coil.load
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +19,7 @@ import kotlinx.coroutines.launch
 import kr.co.hs.cleanarchitecturesample.R
 import kr.co.hs.cleanarchitecturesample.databinding.ActivityBookDetailsBinding
 import kr.co.hs.cleanarchitecturesample.di.NavigatorQualifier
+import kr.co.hs.cleanarchitecturesample.extension.CoilExt.loadURL
 import kr.co.hs.cleanarchitecturesample.extension.NumberExt.dp
 import kr.co.hs.cleanarchitecturesample.navigation.Navigator
 import kr.co.hs.cleanarchitecturesample.platform.Activity
@@ -82,7 +82,7 @@ class BookDetailsActivity : Activity() {
 
     private fun setupUI(items: Set<BookDetailItem>) {
         (items.find { it is BookDetailItem.ImageUrl } as? BookDetailItem.ImageUrl)
-            ?.let { bookImageView.load(it.url.toString()) { crossfade(true) } }
+            ?.let { bookImageView.loadURL(it.url) { crossfade(true) } }
         (items.find { it is BookDetailItem.Title } as? BookDetailItem.Title)
             ?.let { toolBar.title = it.value }
 
