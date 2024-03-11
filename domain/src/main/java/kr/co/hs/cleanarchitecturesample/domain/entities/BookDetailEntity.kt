@@ -10,4 +10,5 @@ interface BookDetailEntity : BookSummaryEntity {
     val rating: String
     val desc: String
     val url: URL?
+    val preview: List<BookPreviewEntity>
 }

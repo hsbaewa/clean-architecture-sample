@@ -51,6 +51,7 @@ class BookDetailsViewModel
                         _loading.value = false
                         setLastError(it.t)
                     }
+
                     is UseCaseResult.Success -> {
                         _loading.value = false
                         _bookDetails.value = it.data.run {
@@ -75,6 +76,14 @@ class BookDetailsViewModel
                                     ?.apply { set.add(BookDetailItem.Title(this)) }
                                 url?.let { url -> set.add(BookDetailItem.Url(url.toString())) }
                                 imageUrl?.let { imageUrl -> set.add(BookDetailItem.ImageUrl(imageUrl)) }
+
+                                preview.takeIf { it.isNotEmpty() }
+                                    ?.apply {
+                                        set.add(BookDetailItem.PreviewHeader)
+                                        set.addAll(mapIndexed { index, bookPreviewEntity ->
+                                            BookDetailItem.Preview(bookPreviewEntity, index)
+                                        })
+                                    }
                             }
                         }
                     }

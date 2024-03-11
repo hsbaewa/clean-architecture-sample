@@ -1,5 +1,6 @@
 package kr.co.hs.cleanarchitecturesample.features.details
 
+import kr.co.hs.cleanarchitecturesample.domain.entities.BookPreviewEntity
 import java.net.URL
 
 sealed class BookDetailItem : Comparable<BookDetailItem> {
@@ -81,5 +82,18 @@ sealed class BookDetailItem : Comparable<BookDetailItem> {
         override val id: String
             get() = url.toString()
         override val order: Int = 10
+    }
+
+    data object PreviewHeader : BookDetailItem() {
+        override val id: String = "PreviewHeader"
+        override val order: Int = 11
+    }
+
+    data class Preview(val previewEntity: BookPreviewEntity, val idx: Int) : BookDetailItem(),
+        BookDetailTextItem {
+        override val id: String = previewEntity.label
+        override val order: Int = 12 + idx
+        override val value: String
+            get() = previewEntity.url.toString()
     }
 }

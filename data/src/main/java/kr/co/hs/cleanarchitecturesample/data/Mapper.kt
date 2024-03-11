@@ -3,6 +3,7 @@ package kr.co.hs.cleanarchitecturesample.data
 import kr.co.hs.cleanarchitecturesample.data.model.BookDetailsItemModel
 import kr.co.hs.cleanarchitecturesample.data.model.BookSummaryItemModel
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
+import kr.co.hs.cleanarchitecturesample.domain.entities.BookPreviewEntity
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import java.net.URL
 
@@ -37,6 +38,16 @@ object Mapper {
         val desc = desc ?: ""
         val url = url?.runCatching { URL(this) }?.getOrNull()
 
+        val preview = pdf?.mapNotNull {
+            val label = it.key ?: return@mapNotNull null
+            val previewUrl =
+                it.value?.runCatching { URL(this) }?.getOrNull() ?: return@mapNotNull null
+            object : BookPreviewEntity {
+                override val label: String = label
+                override val url: URL = previewUrl
+            }
+        } ?: emptyList()
+
         return object : BookDetailEntity {
             override val authors: String = authors
             override val publisher: String = publisher
@@ -50,7 +61,7 @@ object Mapper {
             override val subtitle: String = subtitle
             override val price: String = price
             override val imageUrl: URL? = imageUrl
-
+            override val preview: List<BookPreviewEntity> = preview
         }
     }
 }

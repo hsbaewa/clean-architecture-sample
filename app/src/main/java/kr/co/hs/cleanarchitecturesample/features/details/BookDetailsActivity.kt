@@ -113,6 +113,7 @@ class BookDetailsActivity : Activity() {
     private fun onBookDetailItemClickListener(item: BookDetailItem) {
         when (item) {
             is BookDetailItem.Url -> navigator.startUrl(this, URL(item.value))
+            is BookDetailItem.Preview -> navigator.startUrl(this, item.previewEntity.url)
             else -> {}
         }
     }

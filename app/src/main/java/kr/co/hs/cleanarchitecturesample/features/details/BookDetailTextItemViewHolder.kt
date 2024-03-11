@@ -6,7 +6,7 @@ import kr.co.hs.cleanarchitecturesample.R
 import kr.co.hs.cleanarchitecturesample.databinding.LayoutBookDetailTextItemBinding
 
 class BookDetailTextItemViewHolder(val binding: LayoutBookDetailTextItemBinding) :
-    BookDetailItemViewHolder<BookDetailItem>(binding.root) {
+    BookDetailsItemViewHolder<BookDetailItem>(binding.root) {
     override fun onBind(item: BookDetailItem) {
         binding.tvLabel.text = when (item as BookDetailItem.BookDetailTextItem) {
             is BookDetailItem.Title -> getString(R.string.details_item_label_title)
@@ -18,6 +18,7 @@ class BookDetailTextItemViewHolder(val binding: LayoutBookDetailTextItemBinding)
             is BookDetailItem.SubTitle -> getString(R.string.details_item_label_subtitle)
             is BookDetailItem.Url -> getString(R.string.details_item_label_url)
             is BookDetailItem.Year -> getString(R.string.details_item_label_year)
+            is BookDetailItem.Preview -> (item as BookDetailItem.Preview).previewEntity.label
         }
 
         with(binding.tvText) {
@@ -25,11 +26,16 @@ class BookDetailTextItemViewHolder(val binding: LayoutBookDetailTextItemBinding)
             if (paintFlags and Paint.UNDERLINE_TEXT_FLAG == Paint.UNDERLINE_TEXT_FLAG) {
                 paintFlags = paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             }
-            if (item is BookDetailItem.Url) {
-                paintFlags = binding.tvText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-                setTextColor(ContextCompat.getColor(context, R.color.purple_500))
-            } else {
-                setTextColor(ContextCompat.getColor(context, R.color.gray))
+            when (item) {
+                is BookDetailItem.Url,
+                is BookDetailItem.Preview -> {
+                    paintFlags = binding.tvText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                    setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                }
+
+                else -> {
+                    setTextColor(ContextCompat.getColor(context, R.color.gray))
+                }
             }
         }
 
