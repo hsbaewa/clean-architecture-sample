@@ -12,4 +12,7 @@
     <string name="details_item_label_year">Year</string>
     <string name="details_item_label_pages">Pages</string>
     <string name="details_item_label_rating">Rating</string>
+    <string name="details_item_label_description">Description</string>
+    <string name="details_item_label_price">Price</string>
+    <string name="details_item_label_url">URL</string>
 </resources>
