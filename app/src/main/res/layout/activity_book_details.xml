@@ -48,21 +48,28 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_details"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="15dp"
-            android:paddingBottom="30dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
-            tools:itemCount="1"
-            tools:listitem="@layout/layout_book_detail_text_item" />
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="15dp"
+                android:paddingBottom="30dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/layout_book_detail_text_item" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -21,6 +21,9 @@ class BookDetailsViewModel
     private val _bookDetails = MutableLiveData<Set<BookDetailItem>>()
     val bookDetails: LiveData<Set<BookDetailItem>> by this::_bookDetails
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> by this::_loading
+
     fun request(isbn: String) {
         viewModelScope.launch {
             val summary = object : BookSummaryEntity {
@@ -31,16 +34,25 @@ class BookDetailsViewModel
                 override val imageUrl: URL? = null
 
             }
+
+            _loading.value = true
+
             @Suppress("DeferredResultUnused")
             getBookDetailsUseCase(summary, scope = this) {
                 when (it) {
                     is UseCaseResult.Error -> when (it.e) {
-                        GetBookDetailsUseCase.NotFoundBookDetails ->
+                        GetBookDetailsUseCase.NotFoundBookDetails -> {
+                            _loading.value = false
                             setLastError(NullPointerException("NotFoundBookDetails"))
+                        }
                     }
 
-                    is UseCaseResult.Exception -> setLastError(it.t)
+                    is UseCaseResult.Exception -> {
+                        _loading.value = false
+                        setLastError(it.t)
+                    }
                     is UseCaseResult.Success -> {
+                        _loading.value = false
                         _bookDetails.value = it.data.run {
                             TreeSet<BookDetailItem>().also { set ->
                                 price.takeIf { it.isNotEmpty() }

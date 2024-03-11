@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.dispose
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -38,6 +39,7 @@ class BookDetailsActivity : Activity() {
     private val recyclerViewDetails: RecyclerView by lazy { binding.recyclerViewDetails }
     private val detailItemListAdapter: BookDetailItemListAdapter
             by lazy { BookDetailItemListAdapter(::onBookDetailItemClickListener) }
+    private val swipeRefreshLayout: SwipeRefreshLayout by lazy { binding.swipeRefreshLayout }
 
     private lateinit var binding: ActivityBookDetailsBinding
     private val bookDetailsViewModel: BookDetailsViewModel by viewModels()
@@ -53,9 +55,11 @@ class BookDetailsActivity : Activity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         recyclerViewDetails.initDetailItemList()
+        swipeRefreshLayout.initRefreshLayout()
 
         bookDetailsViewModel.bookDetails.observe(this) { setupUI(it) }
         bookDetailsViewModel.lastError.observe(this) { showThrowable(it) }
+        bookDetailsViewModel.loading.observe(this) { swipeRefreshLayout.isRefreshing = it }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) { doRequestBookDetails() }
@@ -110,6 +114,18 @@ class BookDetailsActivity : Activity() {
         when (item) {
             is BookDetailItem.Url -> navigator.startUrl(this, URL(item.value))
             else -> {}
+        }
+    }
+
+    /**
+     * 리스트 갱신
+     */
+    private fun SwipeRefreshLayout.initRefreshLayout() {
+        setColorSchemeColors(ContextCompat.getColor(context, R.color.purple_500))
+        setOnRefreshListener {
+            getISBN13()
+                ?.let { bookDetailsViewModel.request(it) }
+                ?: run { swipeRefreshLayout.isRefreshing = false }
         }
     }
 }
