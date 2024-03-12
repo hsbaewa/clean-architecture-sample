@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookDetailEntity
+import kr.co.hs.cleanarchitecturesample.domain.entities.BookPreviewEntity
 import kr.co.hs.cleanarchitecturesample.domain.entities.BookSummaryEntity
 import kr.co.hs.cleanarchitecturesample.domain.repository.BookStoreRepository
 import java.net.URL
@@ -19,6 +20,8 @@ class TestBookStoreRepository : BookStoreRepository {
             override val rating: String = "5"
             override val desc: String = "설명0"
             override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = emptyList()
             override val key: String = "0"
             override val title: String = "제목0"
             override val subtitle: String = "부제0"
@@ -34,6 +37,8 @@ class TestBookStoreRepository : BookStoreRepository {
             override val rating: String = "4"
             override val desc: String = "설명1"
             override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = emptyList()
             override val key: String = "1"
             override val title: String = "제목1"
             override val subtitle: String = "부제1"
@@ -49,6 +54,8 @@ class TestBookStoreRepository : BookStoreRepository {
             override val rating: String = "3"
             override val desc: String = "설명2"
             override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = emptyList()
             override val key: String = "2"
             override val title: String = "제목2"
             override val subtitle: String = "부제2"
@@ -64,6 +71,8 @@ class TestBookStoreRepository : BookStoreRepository {
             override val rating: String = "3"
             override val desc: String = "설명3"
             override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = emptyList()
             override val key: String = "3"
             override val title: String = "subject3"
             override val subtitle: String = "부제3"
@@ -79,6 +88,34 @@ class TestBookStoreRepository : BookStoreRepository {
             override val rating: String = "4"
             override val desc: String = "설명4"
             override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = emptyList()
+            override val key: String = "4"
+            override val title: String = "subject4"
+            override val subtitle: String = "부제4"
+            override val price: String = "4원"
+            override val imageUrl: URL =
+                URL("https://p-j-m.github.io/design-compass/assets/img/design-system/icon/main@2x.png")
+        },
+        "5" to object : BookDetailEntity {
+            override val authors = "저자5"
+            override val publisher = "출판사5"
+            override val pages = "5"
+            override val year: String = "2024"
+            override val rating: String = "5"
+            override val desc: String = "preview가 2개 이상인 상세정보"
+            override val url: URL = URL("https://google.com")
+            override val preview: List<BookPreviewEntity>
+                get() = listOf(
+                    object : BookPreviewEntity {
+                        override val label: String = "preview label1"
+                        override val url: URL = URL("http://google.com")
+                    },
+                    object : BookPreviewEntity {
+                        override val label: String = "preview label2"
+                        override val url: URL = URL("http://google.com")
+                    }
+                )
             override val key: String = "4"
             override val title: String = "subject4"
             override val subtitle: String = "부제4"

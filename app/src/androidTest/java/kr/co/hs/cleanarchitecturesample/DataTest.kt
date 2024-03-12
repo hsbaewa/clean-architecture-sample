@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.coroutineScope
@@ -24,6 +23,7 @@ import java.net.URL
 import javax.inject.Inject
 import kotlin.time.Duration
 
+@Suppress("TestFunctionName", "NonAsciiCharacters")
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class DataTest {
@@ -103,6 +103,7 @@ class DataTest {
 
         assertThrows(Exception::class.java) {
             runBlocking {
+                @Suppress("DeferredResultUnused")
                 searchUseCase("", scope = this) {
                     when (it) {
                         is UseCaseResult.Error -> when (it.e) {
@@ -131,8 +132,8 @@ class DataTest {
     }
 
     @Test
-    fun Book_상세_조회_테스트() = runTest {
-        var result = coroutineScope {
+    fun Book_상세_조회_테스트() = runTest(timeout = Duration.INFINITE) {
+        val result = coroutineScope {
             // 유효하지 않은 isbn
             getBookDetailsUseCase(
                 object : BookSummaryEntity {
@@ -159,21 +160,27 @@ class DataTest {
         assertNull(result)
 
         // 실제 유효한 isbn
-        result = coroutineScope {
-            val summary = getNewBooksUseCase(this) {
-                if (it is UseCaseResult.Exception) {
-                    throw it.t
-                }
-            }.await().first()
-
-
-            getBookDetailsUseCase(summary, this) {
+        val detailsList = coroutineScope {
+            val newReleaseList = getNewBooksUseCase(this) {
                 if (it is UseCaseResult.Exception) {
                     throw it.t
                 }
             }.await()
+
+            val newReleaseDetailsList = newReleaseList
+                .mapNotNull {
+                    getBookDetailsUseCase(it, this) {
+                        if (it is UseCaseResult.Exception) {
+                            throw it.t
+                        }
+                    }.await()
+                }
+
+            assertEquals(newReleaseList.size, newReleaseDetailsList.size)
+
+            newReleaseDetailsList
         }
 
-        assertNotNull(result)
+        assertTrue(detailsList.isNotEmpty())
     }
 }
