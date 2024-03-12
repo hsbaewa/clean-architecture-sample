@@ -3,6 +3,7 @@ package kr.co.hs.cleanarchitecturesample.features.details
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import dagger.Module
@@ -12,6 +13,8 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kr.co.hs.cleanarchitecturesample.R
 import kr.co.hs.cleanarchitecturesample.TestBookStoreRepository
 import kr.co.hs.cleanarchitecturesample.data.di.NetworkModule
@@ -76,6 +79,14 @@ class BookDetailsActivityTest {
         Espresso.onView(ViewMatchers.withText("제목0"))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.recycler_view_details))
+                .perform(ViewActions.swipeUp(), ViewActions.swipeUp())
+        } catch (_: Exception) {
+        }
+
+        runBlocking { delay(1000) }
+
         Espresso.onView(ViewMatchers.withText(R.string.details_item_label_preview))
             .check(ViewAssertions.doesNotExist())
     }
@@ -92,6 +103,14 @@ class BookDetailsActivityTest {
                     override val imageUrl: URL? = null
                 })
         )
+
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.recycler_view_details))
+                .perform(ViewActions.swipeUp(), ViewActions.swipeUp())
+        } catch (_: Exception) {
+        }
+
+        runBlocking { delay(1000) }
 
         Espresso.onView(ViewMatchers.withText("preview label1"))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
